@@ -5,11 +5,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @RequestMapping("/api/public/test")
 public interface TestAPI {
-    String find();
+    ResponseEntity<String> find();
 
-    String findById(String id);
+    ResponseEntity<String> findLimited();
 
-    String findLimited();
-
-    ResponseEntity<String> findLimitedAndValidated(String name);
 }
