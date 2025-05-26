@@ -1,6 +1,7 @@
 package com.leep.security.edge.rateLimiting.aspect;
 
 
+import com.leep.security.edge.exception.model.RateLimitExceededException;
 import com.leep.security.edge.rateLimiting.SampleRateLimiter;
 import com.leep.security.edge.rateLimiting.annotation.RateLimited;
 import jakarta.servlet.http.HttpServletRequest;
@@ -8,9 +9,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -39,7 +38,7 @@ public class RateLimitingAspect {
         if (limiter.allowRequest()) {
             return pjp.proceed();
         } else {
-            throw new ResponseStatusException(HttpStatus.TOO_MANY_REQUESTS, "Rate limit exceeded for IP " + clientIp);
+            throw new RateLimitExceededException("Rate limit exceeded for client: " + clientIp);
         }
     }
 
