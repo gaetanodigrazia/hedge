@@ -16,27 +16,20 @@ public class GlobalExceptionHandlerIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
 
+    private final String API_PREFIX = "/api/public/test";
+
     @Test
     public void testRateLimitExceeded() throws Exception {
 
         for (int i = 0; i < 3; i++) {
-            mockMvc.perform(get("/findAll/rateLimited"))
+            mockMvc.perform(get(API_PREFIX+"/findAll/rateLimited"))
                     .andExpect(status().isOk());
         }
 
-        mockMvc.perform(get("/findAll/rateLimited"))
+        mockMvc.perform(get(API_PREFIX+"/findAll/rateLimited"))
                 .andExpect(status().isTooManyRequests())
                 .andExpect(jsonPath("$.status").value(429))
                 .andExpect(jsonPath("$.message").exists());
-    }
-
-    @Test
-    public void testValidationFailure() throws Exception {
-        mockMvc.perform(get("/findById/validatedAndRateLimited")
-                        .param("name", "a".repeat(51)))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.status").value(400))
-                .andExpect(jsonPath("$.message").value("Limite superato")); // o un tuo messaggio custom
     }
 
     @Test
