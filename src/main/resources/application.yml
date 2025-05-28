@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: hedge
+
+  redis:
+    host: localhost
+    port: 6379
+
+
+kafka:
+  enabled: true
+  area-topic-map:
+    admin: admin-events
+    user: user-events
+    public: public-events
+    default: api-call-events
+
+redis:
+  enabled: true
