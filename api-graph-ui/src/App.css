@@ -1,0 +1,177 @@
+/* Layout base */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #3e404b;
+  color: #111111;
+}
+
+.app-layout {
+  display: flex;
+  height: 100vh; /* full screen height */
+}
+
+/* Sidebar */
+.sidebar {
+  width: 260px;
+  background: #3e404b;
+  padding: 1.5rem;
+  border-right: 1px solid #c6d4e1;
+}
+
+.sidebar h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: #111;
+}
+
+.sidebar p {
+  font-size: 0.9rem;
+  color: #333;
+}
+
+/* Main content */
+.main-content {
+  flex-grow: 1;
+  padding: 2rem;
+  background-color: #3e404b; /* ✅ stesso colore della sidebar */
+  color: white;
+  overflow-y: auto;
+}
+
+
+/* Date Filter */
+.date-filter {
+  margin: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.date-filter label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+  color: #111;
+}
+
+.date-filter input {
+  padding: 0.5rem;
+  border-radius: 5px;
+  border: 1px solid #cfd8dc;
+  background: #ffffff;
+  color: #111;
+}
+
+/* Quick Select Buttons */
+.quick-select {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.quick-select button {
+  background-color: #bbdefb;
+  color: #111;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 5px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.quick-select button:hover {
+  background-color: #90caf9;
+}
+
+/* Archive toggle */
+.btn-archive {
+  background-color: #2196f3;
+  color: white;
+  font-weight: bold;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 1.5rem;
+  transition: background-color 0.2s;
+}
+
+.btn-archive:hover {
+  background-color: #1976d2;
+}
+
+/* Group blocks */
+.group-block {
+  margin-bottom: 2rem;
+  border: 1px solid #d0d7de;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.group-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #e3f2fd;
+  padding: 0.75rem 1rem;
+}
+
+.badge {
+  background: #0d47a1;
+  color: white;
+  padding: 0.2rem 0.6rem;
+  border-radius: 5px;
+  margin-right: 0.5rem;
+  font-size: 0.85rem;
+}
+
+/* Table */
+.trace-table {
+  width: 100%;
+  border-collapse: collapse;
+  color: #111;
+}
+
+.trace-table thead th {
+  color: #111 !important;
+}
+
+.trace-table th,
+.trace-table td {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+/* Buttons in group headers */
+.btn-clear {
+  background-color: #e53935;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.4rem 0.8rem;
+  margin-left: 0.5rem;
+  cursor: pointer;
+}
+
+.btn-clear:hover {
+  background-color: #c62828;
+}
+
+/* Error messages */
+.error-msg,
+.date-error,
+.warning {
+  background-color: #f8d7da;
+  color: #842029;
+  padding: 0.6rem;
+  border-left: 5px solid #842029;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+}
