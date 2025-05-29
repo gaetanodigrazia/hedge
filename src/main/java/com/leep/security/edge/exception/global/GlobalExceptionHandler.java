@@ -1,6 +1,7 @@
 package com.leep.security.edge.exception.global;
 import com.leep.security.edge.exception.model.ErrorResponse;
 import com.leep.security.edge.exception.model.RateLimitExceededException;
+import com.leep.security.edge.exception.model.SQLInjectionControlException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +34,21 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleRateLimitExceeded(RateLimitExceededException ex) {
         ErrorResponse error = new ErrorResponse(
                 HttpStatus.TOO_MANY_REQUESTS.value(),
+                ex.getMessage()
+        );
+        return new ResponseEntity<>(error, HttpStatus.TOO_MANY_REQUESTS);
+    }
+
+    /**
+     * Handles {@link RateLimitExceededException} thrown when a rate limit is violated.
+     *
+     * @param ex the exception containing the rate limit violation message
+     * @return a 429 Too Many Requests response with an error body
+     */
+    @ExceptionHandler(SQLInjectionControlException.class)
+    public ResponseEntity<ErrorResponse> hn(SQLInjectionControlException ex) {
+        ErrorResponse error = new ErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
                 ex.getMessage()
         );
         return new ResponseEntity<>(error, HttpStatus.TOO_MANY_REQUESTS);
