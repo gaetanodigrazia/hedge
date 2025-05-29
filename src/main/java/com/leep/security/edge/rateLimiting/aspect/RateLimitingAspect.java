@@ -50,9 +50,8 @@ public class RateLimitingAspect {
         );
 
         boolean allowed = limiter.allowRequest(key);
-
         long start = System.currentTimeMillis();
-        Throwable error = null;
+        Throwable thrown = null;
 
         try {
             if (!allowed) {
@@ -60,7 +59,7 @@ public class RateLimitingAspect {
             }
             return pjp.proceed();
         } catch (Throwable t) {
-            error = t;
+            thrown = t;
             throw t;
         } finally {
             if (rateLimited.tracing()) {
@@ -74,11 +73,16 @@ public class RateLimitingAspect {
                 event.setRemoteIp(request.getRemoteAddr());
                 event.setArea("rate-limit");
                 event.setDurationMillis(duration);
-                event.setExceptionOccurred(error != null || !allowed);
-                event.setExceptionName(error != null ? error.getClass().getSimpleName() :
-                        (!allowed ? "RateLimitExceededException" : null));
+                event.setExceptionOccurred(thrown != null || !allowed);
+                event.setExceptionName(
+                        thrown != null ? thrown.getClass().getSimpleName() :
+                                (!allowed ? RateLimitExceededException.class.getSimpleName() : null)
+                );
                 event.setRateLimitNearThreshold(!allowed);
-                event.setSeverity(evaluator.evaluate("rate-limit", !allowed, error != null || !allowed));
+                event.setRateLimiterType(rateLimited.type().name());
+
+                Severity severity = evaluator.evaluate("rate-limit", !allowed, thrown != null || !allowed);
+                event.setSeverity(severity);
 
                 dispatcher.dispatch(event);
             }
@@ -98,3 +102,4 @@ public class RateLimitingAspect {
         return (auth != null && auth.isAuthenticated()) ? auth.getName() : "anonymous";
     }
 }
+

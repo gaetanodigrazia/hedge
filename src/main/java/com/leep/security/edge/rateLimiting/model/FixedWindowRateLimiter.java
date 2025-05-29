@@ -28,7 +28,7 @@ public class FixedWindowRateLimiter implements RateLimiterStrategy {
             throw new IllegalArgumentException("Limit must be >= 0");
         }
         this.limit = limit;
-        this.windowSizeMillis = seconds * 1000L;
+        this.windowSizeMillis = seconds * 100L;
         this.timeProvider = timeProvider;
     }
     @Override
