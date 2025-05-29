@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/public/test")
-public class TestAPIImpl {
+public class TestAPISrc {
 
     @GetMapping("/findAll/notRateLimited")
     public ResponseEntity<String> find() {

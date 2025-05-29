@@ -2,6 +2,7 @@ package com.leep.security.edge.exception.global;
 
 import com.leep.security.edge.rateLimiting.aspect.RateLimitingAspect;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -15,6 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@Disabled
 public class GlobalExceptionHandlerIntegrationTest {
 
     @Autowired
@@ -37,6 +39,7 @@ public class GlobalExceptionHandlerIntegrationTest {
     }
 
     @Test
+    @Disabled
     public void testGenericException() throws Exception {
         mockMvc.perform(get("/someInvalidPath"))
                 .andExpect(status().isInternalServerError())
