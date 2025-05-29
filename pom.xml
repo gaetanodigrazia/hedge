@@ -62,5 +62,11 @@
 			</plugin>
 		</plugins>
 	</build>
-
+	<distributionManagement>
+		<repository>
+			<id>github</id>
+			<name>hedge</name>
+			<url>https://maven.pkg.github.com/gaetanodigrazia/hedge</url>
+		</repository>
+	</distributionManagement>
 </project>
