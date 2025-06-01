@@ -9,9 +9,13 @@ import org.springframework.security.web.SecurityFilterChain;
 public class NoSecurityConfig {
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http.csrf(csrf -> csrf.disable())
-                   .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
-                   .build();
+    public SecurityFilterChain hedgeApiSecurity(HttpSecurity http) throws Exception {
+        http
+                .securityMatcher("/hedge/**")
+                .authorizeHttpRequests(auth ->
+                        auth.anyRequest().permitAll()
+                );
+        return http.build();
     }
+
 }
