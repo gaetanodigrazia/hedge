@@ -1,4 +1,4 @@
-# 🍿 hedge
+# Hedge
 
 **Secure & Observable API Behavior for Spring Boot**
 
