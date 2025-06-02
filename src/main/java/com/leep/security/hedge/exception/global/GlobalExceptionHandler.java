@@ -1,6 +1,7 @@
 package com.leep.security.hedge.exception.global;
 import com.leep.security.hedge.exception.model.ErrorResponse;
 import com.leep.security.hedge.exception.model.RateLimitExceededException;
+import com.leep.security.hedge.exception.model.RoleAccessDeniedException;
 import com.leep.security.hedge.exception.model.SQLInjectionControlException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
@@ -12,6 +13,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.Map;
 
 /**
  * Global exception handler for REST controllers.
@@ -94,5 +97,16 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+
+    @ExceptionHandler(RoleAccessDeniedException.class)
+    public ResponseEntity<ErrorResponse> handleRoleAccessDenied(RoleAccessDeniedException ex) {
+        ErrorResponse error = new ErrorResponse(
+                HttpStatus.FORBIDDEN.value(),
+                ex.getMessage()
+        );
+        return new ResponseEntity<>(error, HttpStatus.FORBIDDEN);
+    }
+
 
 }
