@@ -1,8 +1,9 @@
 package com.leep.security.hedge.exception.global;
 import com.leep.security.hedge.exception.model.ErrorResponse;
+import com.leep.security.hedge.exception.model.OsInjectionDetectedException;
 import com.leep.security.hedge.exception.model.RateLimitExceededException;
 import com.leep.security.hedge.exception.model.RoleAccessDeniedException;
-import com.leep.security.hedge.exception.model.SQLInjectionControlException;
+import com.leep.security.hedge.exception.model.SqlInjectionDetectedException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,8 +14,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import java.util.Map;
 
 /**
  * Global exception handler for REST controllers.
@@ -42,20 +41,6 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.TOO_MANY_REQUESTS);
     }
 
-    /**
-     * Handles {@link RateLimitExceededException} thrown when a rate limit is violated.
-     *
-     * @param ex the exception containing the rate limit violation message
-     * @return a 429 Too Many Requests response with an error body
-     */
-    @ExceptionHandler(SQLInjectionControlException.class)
-    public ResponseEntity<ErrorResponse> hn(SQLInjectionControlException ex) {
-        ErrorResponse error = new ErrorResponse(
-                HttpStatus.BAD_REQUEST.value(),
-                ex.getMessage()
-        );
-        return new ResponseEntity<>(error, HttpStatus.TOO_MANY_REQUESTS);
-    }
 
     /**
      * Handles validation failures on method arguments annotated with validation constraints.
@@ -108,5 +93,33 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.FORBIDDEN);
     }
 
+    /**
+     * Handles SQL injection attempts detected by @Injection.
+     *
+     * @param ex the SQL injection exception
+     * @return a 400 Bad Request response with a security warning
+     */
+    @ExceptionHandler(SqlInjectionDetectedException.class)
+    public ResponseEntity<ErrorResponse> handleSqlInjection(SqlInjectionDetectedException ex) {
+        ErrorResponse error = new ErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                ex.getMessage()
+        );
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
 
+    /**
+     * Handles OS command injection attempts detected by @Injection.
+     *
+     * @param ex the OS injection exception
+     * @return a 400 Bad Request response with a security warning
+     */
+    @ExceptionHandler(OsInjectionDetectedException.class)
+    public ResponseEntity<ErrorResponse> handleOsInjection(OsInjectionDetectedException ex) {
+        ErrorResponse error = new ErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                ex.getMessage()
+        );
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
 }
