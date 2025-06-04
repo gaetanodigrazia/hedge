@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.leep.security.hedge.config.model.KafkaProperties;
 import com.leep.security.hedge.exception.model.LengthControlException;
 import com.leep.security.hedge.exception.model.RateLimitExceededException;
-import com.leep.security.hedge.exception.model.SQLInjectionControlException;
+import com.leep.security.hedge.exception.model.SqlInjectionDetectedException;
 import com.leep.security.hedge.tracing.model.ApiCallEvent;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -28,7 +28,7 @@ public class KafkaApiCallDispatcher implements KafkaEventDispatcher {
         this.kafkaTemplate = kafkaTemplate;
 
         KafkaProperties.Topics topics = properties.getTopics();
-        topicMappings.put(SQLInjectionControlException.class.getSimpleName(), topics.getSqlInjection());
+        topicMappings.put(SqlInjectionDetectedException.class.getSimpleName(), topics.getSqlInjection());
         topicMappings.put(LengthControlException.class.getSimpleName(), topics.getLengthControl());
         topicMappings.put(RateLimitExceededException.class.getSimpleName(), topics.getRateLimit());
     }
