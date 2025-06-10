@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.leep.security.hedge.tracing.model.ApiCallEvent;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/traces")
+@CrossOrigin(origins = "http://localhost:4200")  // consente tutte le rotte di questo controller
 public class TraceArchiveController {
 
     private final StringRedisTemplate redisTemplate;

@@ -1,16 +1,18 @@
 #!/bin/bash
 
 # Imposta le directory
-BUILD_DIR=./build
+SRC_DIR=./hedge-dashboard
+BUILD_DIR=$SRC_DIR/dist/hedge-dashboard
 DEST_DIR=./src/main/resources/static
 
-cd api-graph-ui
+# Vai nella directory Angular
+cd "$SRC_DIR" || { echo "❌ Cartella $SRC_DIR non trovata."; exit 1; }
 
-# Esegui la build di React
-echo "🏗️  Avvio della build di React..."
-npm run build
+# Esegui la build Angular
+echo "🏗️  Avvio della build di Angular..."
+npm run build -- --configuration production
 if [ $? -ne 0 ]; then
-  echo "❌ Errore durante la build di React."
+  echo "❌ Errore durante la build di Angular."
   exit 1
 fi
 cd ..
@@ -26,6 +28,6 @@ fi
 
 # Copia i nuovi file
 echo "📂 Copia dei file da $BUILD_DIR a $DEST_DIR"
-cp -R "./api-graph-ui/build"/* "$DEST_DIR"
+cp -R "$BUILD_DIR"/* "$DEST_DIR"
 
 echo "✅ Build e copia completate con successo."
