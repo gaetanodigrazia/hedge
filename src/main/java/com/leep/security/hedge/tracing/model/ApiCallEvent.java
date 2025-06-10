@@ -1,5 +1,6 @@
 package com.leep.security.hedge.tracing.model;
 
+import java.util.Map;
 import java.util.Objects;
 
 public class ApiCallEvent {
@@ -15,6 +16,8 @@ public class ApiCallEvent {
     private boolean exceptionOccurred;
     private String exceptionName;
     private String rateLimiterType;
+    private Map<String, String[]> parameters;
+    private String requestBody;
 
 
     public String getPath() {
@@ -113,16 +116,17 @@ public class ApiCallEvent {
         this.rateLimiterType = rateLimiterType;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        ApiCallEvent that = (ApiCallEvent) o;
-        return durationMillis == that.durationMillis && rateLimitNearThreshold == that.rateLimitNearThreshold && exceptionOccurred == that.exceptionOccurred && Objects.equals(path, that.path) && Objects.equals(method, that.method) && Objects.equals(userId, that.userId) && Objects.equals(remoteIp, that.remoteIp) && Objects.equals(area, that.area) && severity == that.severity && Objects.equals(timestamp, that.timestamp) && Objects.equals(exceptionName, that.exceptionName) && Objects.equals(rateLimiterType, that.rateLimiterType);
+    public Map<String, String[]> getParameters() {
+        return parameters;
     }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(path, method, userId, remoteIp, area, severity, timestamp, durationMillis, rateLimitNearThreshold, exceptionOccurred, exceptionName, rateLimiterType);
+    public void setParameters(Map<String, String[]> parameters) {
+        this.parameters = parameters;
+    }
+    public String getRequestBody() {
+        return requestBody;
+    }
+    public void setRequestBody(String requestBody) {
+        this.requestBody = requestBody;
     }
 
     @Override
@@ -140,6 +144,8 @@ public class ApiCallEvent {
                 ", exceptionOccurred=" + exceptionOccurred +
                 ", exceptionName='" + exceptionName + '\'' +
                 ", rateLimiterType='" + rateLimiterType + '\'' +
+                ", parameters=" + parameters +
+                ", requestBody='" + requestBody + '\'' +
                 '}';
     }
 }

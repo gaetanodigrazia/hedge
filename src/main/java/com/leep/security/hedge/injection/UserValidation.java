@@ -1,6 +1,6 @@
 package com.leep.security.hedge.injection;
 
-enum UserValidation {
+public enum UserValidation {
     NONE(-1),
     UUID(36),
     EMAIL(320),

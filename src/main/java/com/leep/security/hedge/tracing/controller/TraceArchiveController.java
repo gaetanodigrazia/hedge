@@ -2,14 +2,19 @@ package com.leep.security.hedge.tracing.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.leep.security.hedge.injection.Injection;
+import com.leep.security.hedge.injection.UserValidation;
+import com.leep.security.hedge.rateLimiting.annotation.RateLimited;
 import com.leep.security.hedge.tracing.model.ApiCallEvent;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -46,6 +51,18 @@ public class TraceArchiveController {
     @GetMapping("/archived")
     public List<ApiCallEvent> getArchivedTraces() throws JsonProcessingException {
         List<String> jsonList = redisTemplate.opsForList().range("api:traces:archived", 0, -1);
+        List<ApiCallEvent> events = new ArrayList<>();
+        if (jsonList != null) {
+            for (String json : jsonList) {
+                events.add(mapper.readValue(json, ApiCallEvent.class));
+            }
+        }
+        return events;
+    }
+
+    @GetMapping
+    public List<ApiCallEvent> getTraces() throws JsonProcessingException {
+        List<String> jsonList = redisTemplate.opsForList().range("api:traces", 0, -1);
         List<ApiCallEvent> events = new ArrayList<>();
         if (jsonList != null) {
             for (String json : jsonList) {

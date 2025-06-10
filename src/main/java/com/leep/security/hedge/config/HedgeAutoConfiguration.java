@@ -10,4 +10,6 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties({RedisProperties.class, KafkaProperties.class})
 @ComponentScan(basePackages = "com.leep.security.hedge")
 public class HedgeAutoConfiguration {
+
+    
 }

@@ -1,22 +1,28 @@
 package com.leep.security.hedge.injection;
 
+import com.leep.security.hedge.exception.model.LengthControlException;
 import com.leep.security.hedge.exception.model.OsInjectionDetectedException;
 import com.leep.security.hedge.exception.model.SqlInjectionDetectedException;
 import com.leep.security.hedge.tracing.dispatcher.ApiCallEventDispatcher;
 import com.leep.security.hedge.tracing.model.ApiCallEvent;
 import com.leep.security.hedge.tracing.model.Severity;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequestWrapper;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.util.ContentCachingRequestWrapper;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.Map;
 import java.util.Set;
 
+@Aspect
 @Component
 public class InjectionAspect {
 
@@ -66,6 +72,9 @@ public class InjectionAspect {
             event.setExceptionName(thrown != null ? thrown.getClass().getSimpleName() : null);
             event.setSeverity(thrown != null ? Severity.ERROR : Severity.INFO);
 
+            event.setParameters(paramMap);
+            event.setRequestBody(readRequestBody());
+
             dispatcher.dispatch(event);
         }
     }
@@ -74,7 +83,7 @@ public class InjectionAspect {
         if (value == null) return;
 
         if (maxLen > 0 && value.length() > maxLen) {
-            throw new IllegalArgumentException("Field '" + field + "' exceeds max length: " + maxLen);
+            throw new LengthControlException("Field '" + field + "' exceeds max length: " + maxLen);
         }
         if (injection.checkSql() && isSqlInjection(value)) {
             throw new SqlInjectionDetectedException(field);
@@ -86,8 +95,9 @@ public class InjectionAspect {
 
     private boolean isSqlInjection(String input) {
         String lower = input.toLowerCase();
-        return lower.matches(".*([';--]|\\b(select|update|delete|insert|drop|union|or|and)\\b).*\\s*");
+        return lower.matches(".*([';]|--|\\b(select|update|delete|insert|drop|union|or|and)\\b).*\\s*");
     }
+
 
     private boolean isOsInjection(String input) {
         String lower = input.toLowerCase();
@@ -96,5 +106,13 @@ public class InjectionAspect {
 
     private HttpServletRequest getRequest() {
         return ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+    }
+
+    private String readRequestBody() {
+        if (request instanceof ContentCachingRequestWrapper wrapper) {
+            byte[] content = wrapper.getContentAsByteArray();
+            return new String(content, StandardCharsets.UTF_8);
+        }
+        return null;
     }
 }
