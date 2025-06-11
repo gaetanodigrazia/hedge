@@ -1,8 +1,10 @@
-package com.leep.security.hedge.access;
+package com.leep.security.hedge.access.aspect;
 
+import com.leep.security.hedge.access.annotation.RequireRole;
+import com.leep.security.hedge.access.hierarchy.RoleHierarchyService;
+import com.leep.security.hedge.access.provider.UserRoleProvider;
 import com.leep.security.hedge.exception.model.RoleAccessDeniedException;
 import com.leep.security.hedge.tracing.dispatcher.ApiCallEventDispatcher;
-import com.leep.security.hedge.tracing.integration.kafka.KafkaEventDispatcher;
 import com.leep.security.hedge.tracing.model.ApiCallEvent;
 import com.leep.security.hedge.tracing.model.Severity;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,13 +13,11 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Instant;
 import java.util.Arrays;

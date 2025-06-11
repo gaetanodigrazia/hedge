@@ -1,4 +1,4 @@
-package com.leep.security.hedge.access;
+package com.leep.security.hedge.access.provider;
 
 import java.util.Set;
 

@@ -1,5 +1,6 @@
 package com.leep.security.hedge.exception.global;
 import com.leep.security.hedge.exception.model.ErrorResponse;
+import com.leep.security.hedge.exception.model.LengthControlException;
 import com.leep.security.hedge.exception.model.OsInjectionDetectedException;
 import com.leep.security.hedge.exception.model.RateLimitExceededException;
 import com.leep.security.hedge.exception.model.RoleAccessDeniedException;
@@ -116,6 +117,21 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(OsInjectionDetectedException.class)
     public ResponseEntity<ErrorResponse> handleOsInjection(OsInjectionDetectedException ex) {
+        ErrorResponse error = new ErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                ex.getMessage()
+        );
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    /**
+     * Handles Length injection attempts detected by @Injection.
+     *
+     * @param ex the Length Control Exception
+     * @return a 400 Bad Request response with a security warning
+     */
+    @ExceptionHandler(LengthControlException.class)
+    public ResponseEntity<ErrorResponse> handleLengthControlException(LengthControlException ex) {
         ErrorResponse error = new ErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),
                 ex.getMessage()

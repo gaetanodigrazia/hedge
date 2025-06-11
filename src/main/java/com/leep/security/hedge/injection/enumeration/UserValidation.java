@@ -1,4 +1,4 @@
-package com.leep.security.hedge.injection;
+package com.leep.security.hedge.injection.enumeration;
 
 public enum UserValidation {
     NONE(-1),

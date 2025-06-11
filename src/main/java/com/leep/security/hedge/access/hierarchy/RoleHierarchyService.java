@@ -1,4 +1,4 @@
-package com.leep.security.hedge.access;
+package com.leep.security.hedge.access.hierarchy;
 
 import java.util.*;
 

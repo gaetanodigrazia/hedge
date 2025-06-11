@@ -40,8 +40,10 @@ public class RateLimitingAspect {
 
     @Around("@annotation(rateLimited)")
     public Object rateLimit(ProceedingJoinPoint pjp, RateLimited rateLimited) throws Throwable {
+        String methodKey = "fixedMethodKey"; // anziché usare toShortString()
+
         String clientIp = getClientIp();
-        String methodKey = pjp.getSignature().toShortString();
+        //String methodKey = pjp.getSignature().toShortString();
         String key = methodKey + ":" + clientIp;
 
         RateLimiterStrategy limiter = limiters.computeIfAbsent(

@@ -10,8 +10,6 @@ public class RedisProperties {
     private int port = 6379;
     private int timeout = 5000;
 
-    // Getters & setters
-
     public boolean isEnabled() {
         return enabled;
     }

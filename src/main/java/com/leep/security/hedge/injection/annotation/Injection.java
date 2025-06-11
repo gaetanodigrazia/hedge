@@ -1,4 +1,6 @@
-package com.leep.security.hedge.injection;
+package com.leep.security.hedge.injection.annotation;
+
+import com.leep.security.hedge.injection.enumeration.UserValidation;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
