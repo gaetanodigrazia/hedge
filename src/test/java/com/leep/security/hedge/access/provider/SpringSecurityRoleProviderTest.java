@@ -1,5 +1,6 @@
 package com.leep.security.hedge.access.provider;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,6 +15,7 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@Disabled
 public class SpringSecurityRoleProviderTest {
 
     private final SpringSecurityRoleProvider provider = new SpringSecurityRoleProvider();

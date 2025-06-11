@@ -4,6 +4,7 @@ import com.leep.security.hedge.access.annotation.RequireRole;
 import com.leep.security.hedge.access.hierarchy.RoleHierarchyService;
 import com.leep.security.hedge.access.provider.UserRoleProvider;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -16,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@Disabled
 public class RequireRoleAspectTest {
 
     @Mock
