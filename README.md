@@ -8,14 +8,14 @@
 
 ## 🚀 Features
 
-- ✅ `@RequireRole`: Role-based access guard for controller methods
-- ✅ `@ApiTrace`: Emits structured request metadata with contextual severity
-- ✅ `@RateLimited`: Redis-backed fixed-window rate limiting per IP or user
-- ✅ `@SQLInjectionControl`: Validates request parameters against SQL-like patterns
-- ✅ Kafka-native event dispatching (area/topic mapped)
-- ✅ Optional role hierarchy expansion (`RoleHierarchyService`)
-- ✅ Redis-backed trace stream for dashboards
-- ✅ Plug-and-play: no changes to controller logic needed
+- ✅ `@RequireRole`: Role-based access guard for controller methods  
+- ✅ `@ApiTrace`: Emits structured request metadata with contextual severity  
+- ✅ `@RateLimited`: Redis-backed fixed-window rate limiting per IP or user  
+- ✅ `@SQLInjectionControl`: Validates request parameters against SQL-like patterns  
+- ✅ Kafka-native event dispatching (area/topic mapped)  
+- ✅ Optional role hierarchy expansion (`RoleHierarchyService`)  
+- ✅ Redis-backed trace stream for dashboards  
+- ✅ Plug-and-play: no changes to controller logic needed  
 
 ---
 
@@ -69,9 +69,9 @@ public StatsData stats() { ... }
 
 ### ✅ Flexible Role Handling
 
-- Role resolution is delegated via `UserRoleProvider`
-- Optional `RoleHierarchyService` allows hierarchical access (e.g., ADMIN ⇒ USER)
-- Opt-out per method via `expandHierarchy = false`
+- Role resolution is delegated via `UserRoleProvider`  
+- Optional `RoleHierarchyService` enables hierarchical access (e.g., ADMIN ⇒ USER)  
+- Opt out per method using `expandHierarchy = false`  
 
 ### Spring Security Example
 
@@ -132,17 +132,17 @@ public class CustomRoleHierarchyService implements RoleHierarchyService {
 
 ## 🛡 OWASP API Security Coverage
 
-| OWASP API Top 10 (2023) | Coverage in Hedge |
-|--------------------------|--------------------|
-| API1: Broken Object Auth | ❌ Not handled      |
-| API2: Broken Auth        | ❌ Not in scope     |
-| API3: Prop Auth          | ❌ Not handled      |
-| API4: Resource Abuse     | ✅ `@RateLimited`   |
-| API5: Func Auth          | ✅ `@RequireRole`   |
-| API6: Sensitive Data     | ⚠️ Tracing only     |
-| API7: SSRF               | ❌ Not handled      |
+| OWASP API Top 10 (2023) | Coverage in Hedge       |
+|--------------------------|--------------------------|
+| API1: Broken Object Auth | ❌ Not handled            |
+| API2: Broken Auth        | ❌ Not in scope           |
+| API3: Prop Auth          | ❌ Not handled            |
+| API4: Resource Abuse     | ✅ `@RateLimited`         |
+| API5: Func Auth          | ✅ `@RequireRole`         |
+| API6: Sensitive Data     | ⚠️ Tracing only           |
+| API7: SSRF               | ❌ Not handled            |
 | API8: Misconfiguration   | ✅ Enforced via annotations |
-| API9: Inventory          | ✅ Kafka trace      |
+| API9: Inventory          | ✅ Kafka trace            |
 | API10: Unsafe APIs       | ⚠️ `@SQLInjectionControl` |
 
 ---
@@ -161,7 +161,7 @@ public class CustomRoleHierarchyService implements RoleHierarchyService {
 
 ## 🧰 Redis Support for Dashboards
 
-`hedge` can dispatch structured API events to Redis as well:
+`hedge` can dispatch structured API events to Redis:
 
 ```java
 @Component
@@ -173,46 +173,46 @@ public class RedisApiCallDispatcher implements ApiCallEventDispatcher {
 }
 ```
 
-Use `CompositeApiCallDispatcher` to send to both Redis and Kafka.
+Use `CompositeApiCallDispatcher` to send events to both Redis and Kafka.
+
+> ⚠️ **Important:** To enable dashboard tracking, a **running Redis container is required**. Without Redis, API events will not be stored for dashboard analysis.
 
 ---
 
-
 ## 🧰 Requirements
 
-- Java 17+
-- Spring Boot 3.x
-- Apache Kafka (for event streaming)
-- Redis (optional, for rate limiting and dashboard)
+- Java 17+  
+- Spring Boot 3.x  
+- Apache Kafka (for event streaming)  
+- **Redis (required for rate limiting and dashboard tracking)**
 
 ---
 
 ## 🛡 License
 
-MIT License
+MIT License  
+© 2025 Gaetano Di Grazia
 
-Copyright (c) 2025 Gaetano Di Grazia
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
+Permission is hereby granted, free of charge, to any person obtaining a copy  
+of this software and associated documentation files (the “Software”), to deal  
+in the Software without restriction, including without limitation the rights  
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell  
+copies of the Software, and to permit persons to whom the Software is  
 furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+The above copyright notice and this permission notice shall be included in  
+all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR  
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,  
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE  
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER  
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,  
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN  
+THE SOFTWARE.
 
 ---
 
 ## ✨ Maintainer
 
-Gaetano Di Grazia
+**Gaetano Di Grazia**
