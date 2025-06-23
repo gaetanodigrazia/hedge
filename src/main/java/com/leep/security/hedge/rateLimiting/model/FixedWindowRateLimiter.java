@@ -19,7 +19,7 @@ public class FixedWindowRateLimiter implements RateLimiterStrategy {
     }
 
 
-    // solo per i test, nessun modificatore (package-private)
+    // only for test scope (package-private)
     FixedWindowRateLimiter(int limit, int seconds, TimeProvider timeProvider) {
         if (seconds <= 0) {
             throw new IllegalArgumentException("Window duration must be > 0");
