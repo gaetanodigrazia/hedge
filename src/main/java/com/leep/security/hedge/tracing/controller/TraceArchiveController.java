@@ -17,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/traces")
-@CrossOrigin(origins = "http://localhost:4200")  // consente tutte le rotte di questo controller
+@CrossOrigin(origins = "http://localhost:4200")
 public class TraceArchiveController {
 
     private final StringRedisTemplate redisTemplate;
@@ -33,9 +33,7 @@ public class TraceArchiveController {
             try {
                 String json = mapper.writeValueAsString(event);
                 redisTemplate.opsForList().remove("api:traces", 1, json);
-                // eventualmente puoi pusharlo in un'altra lista per archivio: redisTemplate.opsForList().leftPush("api:archive", json);
             } catch (JsonProcessingException e) {
-                // Log error
             }
         }
         return ResponseEntity.ok().build();
