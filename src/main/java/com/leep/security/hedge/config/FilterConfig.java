@@ -21,7 +21,6 @@ public class FilterConfig {
             public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
                     throws IOException, ServletException {
 
-                // Wrappa solo se è una richiesta HTTP
                 if (request instanceof HttpServletRequest) {
                     ContentCachingRequestWrapper wrappedRequest =
                             new ContentCachingRequestWrapper((HttpServletRequest) request);
@@ -32,7 +31,7 @@ public class FilterConfig {
             }
         });
 
-        registrationBean.setOrder(1); // Assicurati che venga eseguito molto presto
+        registrationBean.setOrder(1);
         registrationBean.setName("ContentCachingRequestWrapperFilter");
         return registrationBean;
     }
